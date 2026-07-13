@@ -18,6 +18,8 @@ onee-product-template/
 │   ├── testing/             # Shared test helpers
 │   ├── ui/                  # Shared UI package, if needed
 │   └── utils/               # Shared utilities
+├── e2e/                     # Integration tests across system boundaries
+├── evals/                   # Evaluations that call real models
 ├── docs/                    # Architecture and quality documentation
 ├── scripts/                 # Local automation
 ├── .github/                 # GitHub Actions
@@ -29,11 +31,15 @@ onee-product-template/
 ```bash
 npm install
 npm run bootstrap -- --name my-product
-npm run check
-npm run type-check
+npm run lint
 npm run test
+npm run e2e
+npm run eval
+npm run check
 npm run build
 ```
+
+The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. `check` runs all four in that order. See `docs/quality-gates.md` for CI and credential boundaries.
 
 `bootstrap` updates the root package name, workspace package scope, lockfile, and README. It then installs dependencies and runs the full quality gate. Use `--scope <scope>` or `--title <title>` when the defaults derived from the project name are not suitable.
 

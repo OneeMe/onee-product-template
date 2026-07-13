@@ -1,7 +1,7 @@
-name: Quality
+name: Model Eval
 
 on:
-  pull_request:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,9 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality:
-    name: Quality
+  eval:
+    name: Model Eval
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -28,11 +29,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run static checks
-        run: npm run lint
-
-      - name: Run unit tests
-        run: npm run test
-
-      - name: Run integration tests
-        run: npm run e2e
+      - name: Run model evaluations
+        run: npm run eval

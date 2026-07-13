@@ -27,7 +27,9 @@ Use `--scope <scope>` or `--title <title>` to override values derived from the p
 - Enable **Template repository** only for repositories meant to be reused as templates.
 - Add branch protection or repository rulesets.
 - Require the `Quality` workflow before merging.
-- Configure required secrets and environments.
+- Configure model credentials only in the protected `Model Eval` workflow.
+- Decide whether model evals are required for main, releases, or manual acceptance.
+- Configure other required secrets and environments.
 - Decide whether releases are manual, tag-based, or automated.
 
 ## Local

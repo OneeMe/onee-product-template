@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
@@ -7,6 +7,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'lcov'],
       reportsDirectory: './coverage',
     },
+    exclude: [...configDefaults.exclude, 'e2e/**', 'evals/**'],
     globals: true,
     include: ['**/*.{test,spec}.{ts,tsx}'],
   },

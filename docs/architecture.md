@@ -5,6 +5,8 @@
 ```text
 apps/*       = deployable or runnable applications
 packages/*   = reusable libraries and stable internal boundaries
+e2e/*        = integration tests across assembled system boundaries
+evals/*      = evaluations that call real models
 docs/*       = durable project knowledge
 scripts/*    = local automation
 .github/*    = CI/CD and collaboration automation
