@@ -16,9 +16,10 @@
 ## Project Bootstrap
 
 - From `onee-workspace`, create new products with `make create-product name=<project-name>`.
-- For direct GitHub template usage, run `npm run bootstrap -- --name <project-name>` once after cloning.
-- Do not manually search and replace `onee-product-template` or `@template/*`; keep identity changes in `scripts/bootstrap-project.mjs`.
-- Bootstrap may be repeated with the same project identity, but it must not overwrite custom workspace package names.
+- For direct GitHub template usage, clone into the intended lowercase kebab-case directory and run `npm install`.
+- `npm install` derives the project name from the clone directory and initializes package names, workspace scope, lockfile, README, dependencies, and Git hooks.
+- Do not manually search and replace `onee-product-template` or `@template/*`; keep identity changes in the install lifecycle scripts.
+- Initialization is idempotent and must not overwrite custom workspace package names.
 
 ## Quality Gates
 

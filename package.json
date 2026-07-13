@@ -10,15 +10,14 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "bootstrap": "node scripts/bootstrap-project.mjs",
     "clean": "node scripts/clean.mjs",
-    "e2e": "vitest run --config vitest.e2e.config.ts --passWithNoTests && node --test e2e/bootstrap-project.test.mjs",
+    "e2e": "vitest run --config vitest.e2e.config.ts --passWithNoTests && node --test e2e/project-install.test.mjs",
     "eval": "vitest run --config vitest.eval.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm run format:check && npm run lint:eslint && npm run type-check",
     "lint:eslint": "eslint .",
-    "prepare": "git config core.hooksPath .githooks || true",
+    "prepare": "node scripts/prepare-project.mjs",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "type-check": "tsc -b && tsc --project tsconfig.quality.json"

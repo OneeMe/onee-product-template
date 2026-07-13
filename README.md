@@ -32,7 +32,6 @@ onee-product-template/
 
 ```bash
 npm install
-npm run bootstrap -- --name my-product
 npm run lint
 npm run test
 npm run e2e
@@ -42,7 +41,11 @@ npm run build
 
 The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. Run each command explicitly; `eval` remains separate because it uses model credentials and may incur cost. See `docs/quality-gates.md` for CI and credential boundaries.
 
-`bootstrap` updates the root package name, workspace package scope, lockfile, and README. It then installs dependencies and runs `lint`, `test`, and `e2e` in order. Use `--scope <scope>` or `--title <title>` when the defaults derived from the project name are not suitable.
+On the first install in a repository created from this template, `npm install` derives the project name from the clone directory and updates the root package name, workspace package scope, lockfile, README, dependencies, and Git hooks. Later installs are idempotent. To override the derived scope or title, set `ONEE_PROJECT_SCOPE` or `ONEE_PROJECT_TITLE` on the same command.
+
+```bash
+ONEE_PROJECT_SCOPE=acme ONEE_PROJECT_TITLE="Acme Product" npm install
+```
 
 ## GitHub Template Setup
 
@@ -52,6 +55,6 @@ From `onee-workspace`, create and initialize a public product repository with on
 make create-product name=my-product
 ```
 
-For a repository created directly through GitHub's template interface, clone it and run the `bootstrap` command before beginning product work.
+For a repository created directly through GitHub's template interface, clone it into the intended project directory and run `npm install` before beginning product work.
 
 See `docs/bootstrap.md` for the setup checklist.

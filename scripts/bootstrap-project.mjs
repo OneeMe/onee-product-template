@@ -1,9 +1,5 @@
-#!/usr/bin/env node
-
-import { spawnSync } from 'node:child_process';
-import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { access, readdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join, relative, sep } from 'node:path';
 
 const TEMPLATE_NAME = 'onee-product-template';
 const TEMPLATE_DESCRIPTION =
@@ -15,59 +11,6 @@ const DEPENDENCY_FIELDS = [
   'optionalDependencies',
   'peerDependencies',
 ];
-
-function usage() {
-  console.log(`Usage:
-  npm run bootstrap -- --name <project-name> [options]
-
-Options:
-  --scope <scope>   Workspace package scope. Defaults to the project name.
-  --title <title>   README title. Defaults to a title derived from the name.
-  -h, --help        Show this help.`);
-}
-
-function takeValue(argv, index, option) {
-  const value = argv[index + 1];
-  if (!value || value.startsWith('--')) {
-    throw new Error(`${option} requires a value.`);
-  }
-  return value;
-}
-
-function parseArgs(argv) {
-  const options = {
-    name: '',
-    scope: '',
-    title: '',
-  };
-
-  for (let index = 0; index < argv.length; index += 1) {
-    const argument = argv[index];
-
-    switch (argument) {
-      case '--name':
-        options.name = takeValue(argv, index, argument);
-        index += 1;
-        break;
-      case '--scope':
-        options.scope = takeValue(argv, index, argument);
-        index += 1;
-        break;
-      case '--title':
-        options.title = takeValue(argv, index, argument);
-        index += 1;
-        break;
-      case '-h':
-      case '--help':
-        options.help = true;
-        break;
-      default:
-        throw new Error(`Unknown argument: ${argument}`);
-    }
-  }
-
-  return options;
-}
 
 function validateSlug(value, label) {
   if (!SLUG_PATTERN.test(value)) {
@@ -112,7 +55,15 @@ async function workspacePackagePaths(root, patterns) {
       }
 
       for (const entry of entries) {
-        if (entry.isDirectory()) paths.push(join(parent, entry.name, 'package.json'));
+        if (!entry.isDirectory()) continue;
+
+        const manifestPath = join(parent, entry.name, 'package.json');
+        try {
+          await access(manifestPath);
+          paths.push(manifestPath);
+        } catch (error) {
+          if (error.code !== 'ENOENT') throw error;
+        }
       }
       continue;
     }
@@ -191,14 +142,6 @@ function renameLockfileReferences(lock, scope) {
   lock.packages = packages;
 }
 
-function run(command, args, cwd) {
-  const result = spawnSync(command, args, { cwd, stdio: 'inherit' });
-  if (result.error) throw result.error;
-  if (result.status !== 0) {
-    throw new Error(`${command} ${args.join(' ')} failed with exit code ${result.status}.`);
-  }
-}
-
 export async function bootstrapProject({ name, root, scope, title }) {
   validateSlug(name, 'Project name');
   const normalizedScope = normalizeScope(scope || name);
@@ -270,31 +213,8 @@ export async function bootstrapProject({ name, root, scope, title }) {
     console.log(`Initialized ${name}:`);
     for (const path of changedPaths) console.log(`  ${path}`);
   } else {
-    console.log(`No bootstrap changes were needed for ${name}.`);
+    console.log(`No initialization changes were needed for ${name}.`);
   }
-
-  run('npm', ['install'], root);
-  run('npm', ['run', 'lint'], root);
-  run('npm', ['run', 'test'], root);
-  run('npm', ['run', 'e2e'], root);
 
   return changedPaths;
-}
-
-async function main() {
-  const options = parseArgs(process.argv.slice(2));
-  if (options.help) {
-    usage();
-    return;
-  }
-
-  await bootstrapProject({ ...options, root: process.cwd() });
-}
-
-const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
-if (isMain) {
-  main().catch((error) => {
-    console.error(`bootstrap-project: ${error.message}`);
-    process.exitCode = 1;
-  });
 }

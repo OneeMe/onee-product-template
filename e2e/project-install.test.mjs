@@ -5,7 +5,7 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 
-const script = resolve('scripts/bootstrap-project.mjs');
+const prepareScript = resolve('scripts/prepare-project.mjs');
 
 async function writeJson(path, value) {
   await writeFile(path, `${JSON.stringify(value, null, 2)}\n`);
@@ -21,19 +21,27 @@ async function writeExecutable(path, content) {
 }
 
 async function createFixture() {
-  const root = await mkdtemp(join(tmpdir(), 'onee-product-bootstrap-'));
-  const bin = join(root, 'bin');
-  const npmLog = join(root, 'npm.log');
+  const fixtureRoot = await mkdtemp(join(tmpdir(), 'onee-product-install-'));
+  const root = join(fixtureRoot, 'acme-product');
+  const bin = join(fixtureRoot, 'bin');
+  const npmLog = join(fixtureRoot, 'npm.log');
 
+  await mkdir(join(root, 'apps/android'), { recursive: true });
+  await mkdir(join(root, 'apps/ios'), { recursive: true });
   await mkdir(join(root, 'apps/web'), { recursive: true });
   await mkdir(join(root, 'packages/ui'), { recursive: true });
   await mkdir(bin);
+  await writeFile(join(root, 'apps/android/.gitkeep'), '');
+  await writeFile(join(root, 'apps/ios/.gitkeep'), '');
   await writeFile(npmLog, '');
   await writeExecutable(
     join(bin, 'npm'),
     `#!/usr/bin/env bash
 set -euo pipefail
 printf 'npm %s\\n' "$*" >>"$NPM_LOG"
+if [ "\${1:-}" = "install" ] && [ "\${2:-}" != "--ignore-scripts" ]; then
+  "$NODE_BINARY" "$PREPARE_SCRIPT"
+fi
 `,
   );
   await writeJson(join(root, 'package.json'), {
@@ -77,33 +85,32 @@ printf 'npm %s\\n' "$*" >>"$NPM_LOG"
     '# Onee Product Template\n\nThis repository is a public GitHub template.\n\n```text\nonee-product-template/\n```\n',
   );
 
-  return { bin, npmLog, root };
+  return { bin, fixtureRoot, npmLog, root };
 }
 
-function runBootstrap(fixture, args) {
-  return spawnSync(process.execPath, [script, ...args], {
+function runInstall(fixture, environment = {}) {
+  return spawnSync('npm', ['install'], {
     cwd: fixture.root,
     encoding: 'utf8',
     env: {
       ...process.env,
+      ...environment,
+      NODE_BINARY: process.execPath,
       NPM_LOG: fixture.npmLog,
       PATH: `${fixture.bin}:${process.env.PATH}`,
+      PREPARE_SCRIPT: prepareScript,
     },
   });
 }
 
-test('bootstrap command initializes project identity across workspace metadata', async (t) => {
+test('npm install initializes project identity across workspace metadata', async (t) => {
   const fixture = await createFixture();
   const { root } = fixture;
-  t.after(() => rm(root, { force: true, recursive: true }));
-  const result = runBootstrap(fixture, [
-    '--name',
-    'acme-product',
-    '--scope',
-    'acme',
-    '--title',
-    'Acme Product',
-  ]);
+  t.after(() => rm(fixture.fixtureRoot, { force: true, recursive: true }));
+  const result = runInstall(fixture, {
+    ONEE_PROJECT_SCOPE: 'acme',
+    ONEE_PROJECT_TITLE: 'Acme Product',
+  });
 
   assert.equal(result.status, 0, result.stderr);
   assert.equal((await readJson(join(root, 'package.json'))).name, 'acme-product');
@@ -137,35 +144,36 @@ test('bootstrap command initializes project identity across workspace metadata',
   assert.match(await readFile(join(root, 'README.md'), 'utf8'), /acme-product\//);
   assert.equal(
     await readFile(fixture.npmLog, 'utf8'),
-    'npm install\nnpm run lint\nnpm run test\nnpm run e2e\n',
+    'npm install\nnpm install --ignore-scripts\n',
   );
 });
 
-test('bootstrap command is idempotent for the same project identity', async (t) => {
+test('npm install initialization is idempotent', async (t) => {
   const fixture = await createFixture();
-  const { root } = fixture;
-  t.after(() => rm(root, { force: true, recursive: true }));
-  const args = ['--name', 'acme-product', '--scope', 'acme'];
+  t.after(() => rm(fixture.fixtureRoot, { force: true, recursive: true }));
 
-  const first = runBootstrap(fixture, args);
-  const second = runBootstrap(fixture, args);
+  const first = runInstall(fixture);
+  const second = runInstall(fixture);
 
   assert.equal(first.status, 0, first.stderr);
   assert.equal(second.status, 0, second.stderr);
-  assert.match(second.stdout, /No bootstrap changes were needed for acme-product/);
+  assert.equal(
+    await readFile(fixture.npmLog, 'utf8'),
+    'npm install\nnpm install --ignore-scripts\nnpm install\n',
+  );
 });
 
-test('bootstrap command refuses custom workspace package names without partial writes', async (t) => {
+test('npm install refuses custom workspace package names without partial writes', async (t) => {
   const fixture = await createFixture();
   const { root } = fixture;
-  t.after(() => rm(root, { force: true, recursive: true }));
+  t.after(() => rm(fixture.fixtureRoot, { force: true, recursive: true }));
   const rootManifestBefore = await readFile(join(root, 'package.json'), 'utf8');
   await writeJson(join(root, 'packages/ui/package.json'), {
     name: '@custom/ui',
     private: true,
   });
 
-  const result = runBootstrap(fixture, ['--name', 'acme-product']);
+  const result = runInstall(fixture);
 
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Refusing to replace custom workspace package name/);

@@ -6,15 +6,15 @@ The preferred path from `onee-workspace` is:
 make create-product name=my-product
 ```
 
-That command creates and clones the GitHub repository, runs this template's bootstrap script, verifies the project, publishes the initialized commit, and registers the clone with the local workspace.
+That command creates and clones the GitHub repository, initializes the template through `npm install`, verifies the project, publishes the initialized commit, and registers the clone with the local workspace.
 
 When creating a repository directly through GitHub's template interface, initialize it locally with:
 
 ```bash
-npm run bootstrap -- --name my-product
+npm install
 ```
 
-Use `--scope <scope>` or `--title <title>` to override values derived from the project name. Re-running bootstrap with the same identity is safe; it refuses to overwrite custom workspace package names.
+The project name is derived from the clone directory. Use `ONEE_PROJECT_SCOPE=<scope>` or `ONEE_PROJECT_TITLE="Project Title"` on the same `npm install` command to override its derived metadata. Re-running `npm install` is safe; initialization is idempotent and refuses to overwrite custom workspace package names.
 
 ## Repository
 
@@ -36,7 +36,7 @@ Use `--scope <scope>` or `--title <title>` to override values derived from the p
 ## Local
 
 ```bash
-npm run prepare
+npm install
 npm run lint
 npm run test
 npm run e2e

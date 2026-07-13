@@ -29,9 +29,9 @@ npm run eval
 | `npm run e2e`  | Integration tests across assembled application boundaries such as HTTP, database, queues, or browser flows.                          |
 | `npm run eval` | Evaluations that call real models against representative inputs and explicit scoring thresholds.                                     |
 
-The quality gates are deliberately not aggregated under another script. Keeping them explicit makes local, bootstrap, and CI behavior visible. Model evals remain separate because they require protected credentials, can incur cost, and may be non-deterministic. `npm run build` remains available as a separate packaging/deployment check.
+The quality gates are deliberately not aggregated under another script. Keeping them explicit makes local, project initialization, and CI behavior visible. Model evals remain separate because they require protected credentials, can incur cost, and may be non-deterministic. `npm run build` remains available as a separate packaging/deployment check.
 
-The template includes an integration test for its bootstrap command. Its stack-neutral application runner may still report no Vitest suites until an application stack exists. The empty `eval` suite intentionally fails: a project cannot claim that `npm run eval` passed until it defines and runs real-model evaluations. Concrete projects should add application integration suites and model evals as soon as those boundaries exist.
+The template includes an integration test for its `npm install` initialization lifecycle. Its stack-neutral application runner may still report no Vitest suites until an application stack exists. The empty `eval` suite intentionally fails: a project cannot claim that `npm run eval` passed until it defines and runs real-model evaluations. Concrete projects should add application integration suites and model evals as soon as those boundaries exist.
 
 ## CI Gate
 
