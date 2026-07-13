@@ -23,8 +23,6 @@ function usage() {
 Options:
   --scope <scope>   Workspace package scope. Defaults to the project name.
   --title <title>   README title. Defaults to a title derived from the name.
-  --skip-install    Skip npm install.
-  --skip-check      Skip npm run check.
   -h, --help        Show this help.`);
 }
 
@@ -38,8 +36,6 @@ function takeValue(argv, index, option) {
 
 function parseArgs(argv) {
   const options = {
-    check: true,
-    install: true,
     name: '',
     scope: '',
     title: '',
@@ -60,12 +56,6 @@ function parseArgs(argv) {
       case '--title':
         options.title = takeValue(argv, index, argument);
         index += 1;
-        break;
-      case '--skip-install':
-        options.install = false;
-        break;
-      case '--skip-check':
-        options.check = false;
         break;
       case '-h':
       case '--help':
@@ -209,7 +199,7 @@ function run(command, args, cwd) {
   }
 }
 
-export async function bootstrapProject({ check, install, name, root, scope, title }) {
+export async function bootstrapProject({ name, root, scope, title }) {
   validateSlug(name, 'Project name');
   const normalizedScope = normalizeScope(scope || name);
   const projectTitle = title || titleFromName(name);
@@ -283,8 +273,8 @@ export async function bootstrapProject({ check, install, name, root, scope, titl
     console.log(`No bootstrap changes were needed for ${name}.`);
   }
 
-  if (install) run('npm', ['install'], root);
-  if (check) run('npm', ['run', 'check'], root);
+  run('npm', ['install'], root);
+  run('npm', ['run', 'check'], root);
 
   return changedPaths;
 }
