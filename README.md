@@ -1,4 +1,4 @@
-# Public Engineering Template
+# Onee Product Template
 
 This repository is a public GitHub template for npm-workspace TypeScript projects.
 
@@ -7,7 +7,7 @@ The template intentionally leaves `apps/web` empty. Choose Next.js, Vite, Astro,
 ## Structure
 
 ```text
-public-engineering-template/
+onee-product-template/
 ├── apps/
 │   ├── web/                 # Empty web app slot; choose a stack later
 │   └── server/              # Optional backend service slot

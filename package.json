@@ -1,5 +1,5 @@
 {
-  "name": "public-engineering-template",
+  "name": "onee-product-template",
   "version": "0.1.0",
   "description": "A public GitHub template repository for npm-workspace TypeScript projects.",
   "private": true,
