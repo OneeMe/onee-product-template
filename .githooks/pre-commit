@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -e
+
+[ "${HUSKY-}" = "0" ] && exit 0
+
+npm run format:check
+npm run lint
+npm run type-check
