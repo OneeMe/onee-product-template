@@ -1,11 +1,23 @@
 # Bootstrap Checklist
 
-Use this after creating a new project from the template.
+The preferred path from `onee-workspace` is:
+
+```bash
+make create-product name=my-product
+```
+
+That command creates and clones the GitHub repository, runs this template's bootstrap script, verifies the project, publishes the initialized commit, and registers the clone with the local workspace.
+
+When creating a repository directly through GitHub's template interface, initialize it locally with:
+
+```bash
+npm run bootstrap -- --name my-product
+```
+
+Use `--scope <scope>` or `--title <title>` to override values derived from the project name. Re-running bootstrap with the same identity is safe; it refuses to overwrite custom workspace package names.
 
 ## Repository
 
-- Rename packages from `@template/*` to the project namespace.
-- Update `README.md`.
 - Choose whether `apps/web` should use Next.js, Vite, Astro, Remix, or another stack.
 - Add required environment variables to `.env.example`.
 
@@ -21,7 +33,6 @@ Use this after creating a new project from the template.
 ## Local
 
 ```bash
-npm install
 npm run prepare
 npm run check
 ```

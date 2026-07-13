@@ -13,6 +13,13 @@
 - Do not add Next.js, Vite, React, Astro, or any other web framework until the project chooses one explicitly.
 - After a stack is chosen, keep framework-specific files inside `apps/web`.
 
+## Project Bootstrap
+
+- From `onee-workspace`, create new products with `make create-product name=<project-name>`.
+- For direct GitHub template usage, run `npm run bootstrap -- --name <project-name>` once after cloning.
+- Do not manually search and replace `onee-product-template` or `@template/*`; keep identity changes in `scripts/bootstrap-project.mjs`.
+- Bootstrap may be repeated with the same project identity, but it must not overwrite custom workspace package names.
+
 ## Quality Gates
 
 Before considering work complete, run the narrowest relevant check. For broad changes, run:

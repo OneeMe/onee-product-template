@@ -10,13 +10,14 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "bootstrap": "node scripts/bootstrap-project.mjs",
     "check": "npm run format:check && npm run lint && npm run type-check && npm run test && npm run build",
     "clean": "node scripts/clean.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "prepare": "git config core.hooksPath .githooks || true",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests && node --test scripts/bootstrap-project.test.mjs",
     "test:watch": "vitest",
     "type-check": "tsc -b"
   },
