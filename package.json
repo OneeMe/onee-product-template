@@ -22,7 +22,7 @@
     "prepare": "git config core.hooksPath .githooks || true",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
-    "type-check": "tsc -b"
+    "type-check": "tsc -b && tsc --project tsconfig.quality.json"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
