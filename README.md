@@ -9,8 +9,10 @@ The template intentionally leaves `apps/web` empty. Choose Next.js, Vite, Astro,
 ```text
 onee-product-template/
 ├── apps/
-│   ├── web/                 # Empty web app slot; choose a stack later
-│   └── server/              # Optional backend service slot
+│   ├── android/             # Empty Android app slot; choose a stack later
+│   ├── ios/                 # Empty iOS app slot; choose a stack later
+│   ├── server/              # Optional backend service slot
+│   └── web/                 # Empty web app slot; choose a stack later
 ├── packages/
 │   ├── config/              # Shared configuration helpers
 │   ├── database/            # Database schema/model/migration boundary

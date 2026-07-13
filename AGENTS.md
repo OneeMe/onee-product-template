@@ -45,6 +45,8 @@ lint -> test -> e2e
 
 ## Directory Boundaries
 
+- `apps/android`: Android product slot; keep stack-neutral until the project selects native Android or a cross-platform framework.
+- `apps/ios`: iOS product slot; keep stack-neutral until the project selects native iOS or a cross-platform framework.
 - `apps/web`: user-facing web product.
 - `apps/server`: backend service or API runtime.
 - `packages/domain`: pure business rules.

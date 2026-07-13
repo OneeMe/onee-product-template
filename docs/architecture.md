@@ -12,6 +12,8 @@ scripts/*    = local automation
 .github/*    = CI/CD and collaboration automation
 ```
 
+The template reserves stack-neutral application slots under `apps/android`, `apps/ios`, and `apps/web`. Select native or cross-platform frameworks only when a concrete product requires them. `apps/server` is the optional backend runtime.
+
 ## Default Application Layout
 
 When a web stack is selected for `apps/web`, prefer this internal shape:
