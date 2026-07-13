@@ -23,7 +23,7 @@ npm run check
 
 `npm run build` remains available as a separate packaging/deployment check. It is not folded into one of the four quality meanings.
 
-The empty template allows `e2e` and `eval` to report that no suites exist. That is a bootstrap state, not proof of integration coverage or model quality. Concrete projects should add suites as soon as those boundaries exist.
+The template includes an integration test for its bootstrap command. Its stack-neutral application runner may still report no Vitest suites until an application stack exists. The empty `eval` suite is only a bootstrap state, not proof of model quality. Concrete projects should add application integration suites and real-model evals as soon as those boundaries exist.
 
 ## CI Gate
 
@@ -38,7 +38,7 @@ checkout
 -> npm run e2e
 ```
 
-The separate `Model Eval` workflow runs `npm run eval` on `main` and by manual dispatch. Keep model credentials out of untrusted pull-request workflows. When a provider is selected, map its secrets only into the protected eval workflow and make missing credentials fail clearly.
+The separate `Model Eval` workflow runs `npm run eval` on `main` and by manual dispatch. Its job is bound to the `model-eval` GitHub Environment. Configure that environment to allow only `main`, add approval when appropriate, and store model credentials as environment secrets. Keep model credentials out of repository-level secrets and untrusted pull-request workflows. When a provider is selected, make missing credentials fail clearly.
 
 Add project-specific implementation behind the stable commands when the stack is chosen:
 

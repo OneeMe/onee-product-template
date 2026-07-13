@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   eval:
+    environment: model-eval
     name: Model Eval
     runs-on: ubuntu-latest
     timeout-minutes: 30
