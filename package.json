@@ -11,7 +11,6 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "bootstrap": "node scripts/bootstrap-project.mjs",
-    "check": "npm run lint && npm run test && npm run e2e",
     "clean": "node scripts/clean.mjs",
     "e2e": "vitest run --config vitest.e2e.config.ts --passWithNoTests && node --test e2e/bootstrap-project.test.mjs",
     "eval": "vitest run --config vitest.eval.config.ts",

@@ -135,7 +135,10 @@ test('bootstrap command initializes project identity across workspace metadata',
   );
   assert.match(await readFile(join(root, 'README.md'), 'utf8'), /^# Acme Product/m);
   assert.match(await readFile(join(root, 'README.md'), 'utf8'), /acme-product\//);
-  assert.equal(await readFile(fixture.npmLog, 'utf8'), 'npm install\nnpm run check\n');
+  assert.equal(
+    await readFile(fixture.npmLog, 'utf8'),
+    'npm install\nnpm run lint\nnpm run test\nnpm run e2e\n',
+  );
 });
 
 test('bootstrap command is idempotent for the same project identity', async (t) => {

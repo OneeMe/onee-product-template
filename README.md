@@ -37,13 +37,12 @@ npm run lint
 npm run test
 npm run e2e
 npm run eval
-npm run check
 npm run build
 ```
 
-The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. `check` runs the three deterministic gates; run `eval` separately because it uses model credentials and may incur cost. See `docs/quality-gates.md` for CI and credential boundaries.
+The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. Run each command explicitly; `eval` remains separate because it uses model credentials and may incur cost. See `docs/quality-gates.md` for CI and credential boundaries.
 
-`bootstrap` updates the root package name, workspace package scope, lockfile, and README. It then installs dependencies and runs the full quality gate. Use `--scope <scope>` or `--title <title>` when the defaults derived from the project name are not suitable.
+`bootstrap` updates the root package name, workspace package scope, lockfile, and README. It then installs dependencies and runs `lint`, `test`, and `e2e` in order. Use `--scope <scope>` or `--title <title>` when the defaults derived from the project name are not suitable.
 
 ## GitHub Template Setup
 

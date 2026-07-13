@@ -37,5 +37,7 @@ Use `--scope <scope>` or `--title <title>` to override values derived from the p
 
 ```bash
 npm run prepare
-npm run check
+npm run lint
+npm run test
+npm run e2e
 ```

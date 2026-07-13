@@ -6,10 +6,12 @@ The default deterministic quality gate is:
 lint -> test -> e2e
 ```
 
-Run it with:
+Run each deterministic gate explicitly:
 
 ```bash
-npm run check
+npm run lint
+npm run test
+npm run e2e
 ```
 
 Run the real-model gate explicitly:
@@ -27,7 +29,7 @@ npm run eval
 | `npm run e2e`  | Integration tests across assembled application boundaries such as HTTP, database, queues, or browser flows.                          |
 | `npm run eval` | Evaluations that call real models against representative inputs and explicit scoring thresholds.                                     |
 
-`npm run check` aggregates only `lint`, `test`, and `e2e`. Model evals are excluded because they require protected credentials, can incur cost, and may be non-deterministic. `npm run build` remains available as a separate packaging/deployment check.
+The quality gates are deliberately not aggregated under another script. Keeping them explicit makes local, bootstrap, and CI behavior visible. Model evals remain separate because they require protected credentials, can incur cost, and may be non-deterministic. `npm run build` remains available as a separate packaging/deployment check.
 
 The template includes an integration test for its bootstrap command. Its stack-neutral application runner may still report no Vitest suites until an application stack exists. The empty `eval` suite intentionally fails: a project cannot claim that `npm run eval` passed until it defines and runs real-model evaluations. Concrete projects should add application integration suites and model evals as soon as those boundaries exist.
 

@@ -274,7 +274,9 @@ export async function bootstrapProject({ name, root, scope, title }) {
   }
 
   run('npm', ['install'], root);
-  run('npm', ['run', 'check'], root);
+  run('npm', ['run', 'lint'], root);
+  run('npm', ['run', 'test'], root);
+  run('npm', ['run', 'e2e'], root);
 
   return changedPaths;
 }
