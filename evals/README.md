@@ -16,4 +16,4 @@ Use `*.test.ts` or `*.spec.ts`. Every suite should define:
 
 Do not replace model calls with mocks in this directory. Mocked model behavior is a unit or integration test, not an eval. Model evals run serially by default to reduce cost spikes and rate-limit failures.
 
-An empty eval suite only means the product has not defined a model-quality contract yet; it is not evidence that model quality has passed.
+The empty template intentionally makes `npm run eval` fail with "No test files found." A project has not established a model-quality contract until it adds a suite here that calls a real model and passes its declared threshold.

@@ -39,7 +39,7 @@ npm run check
 npm run build
 ```
 
-The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. `check` runs all four in that order. See `docs/quality-gates.md` for CI and credential boundaries.
+The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. `check` runs the three deterministic gates; run `eval` separately because it uses model credentials and may incur cost. See `docs/quality-gates.md` for CI and credential boundaries.
 
 `bootstrap` updates the root package name, workspace package scope, lockfile, and README. It then installs dependencies and runs the full quality gate. Use `--scope <scope>` or `--title <title>` when the defaults derived from the project name are not suitable.
 

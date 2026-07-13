@@ -1,15 +1,21 @@
 # Quality Gates
 
-The default local quality gate is:
+The default deterministic quality gate is:
 
 ```text
-lint -> test -> e2e -> eval
+lint -> test -> e2e
 ```
 
 Run it with:
 
 ```bash
 npm run check
+```
+
+Run the real-model gate explicitly:
+
+```bash
+npm run eval
 ```
 
 ## Command Contracts
@@ -21,9 +27,9 @@ npm run check
 | `npm run e2e`  | Integration tests across assembled application boundaries such as HTTP, database, queues, or browser flows.                          |
 | `npm run eval` | Evaluations that call real models against representative inputs and explicit scoring thresholds.                                     |
 
-`npm run build` remains available as a separate packaging/deployment check. It is not folded into one of the four quality meanings.
+`npm run check` aggregates only `lint`, `test`, and `e2e`. Model evals are excluded because they require protected credentials, can incur cost, and may be non-deterministic. `npm run build` remains available as a separate packaging/deployment check.
 
-The template includes an integration test for its bootstrap command. Its stack-neutral application runner may still report no Vitest suites until an application stack exists. The empty `eval` suite is only a bootstrap state, not proof of model quality. Concrete projects should add application integration suites and real-model evals as soon as those boundaries exist.
+The template includes an integration test for its bootstrap command. Its stack-neutral application runner may still report no Vitest suites until an application stack exists. The empty `eval` suite intentionally fails: a project cannot claim that `npm run eval` passed until it defines and runs real-model evaluations. Concrete projects should add application integration suites and model evals as soon as those boundaries exist.
 
 ## CI Gate
 
@@ -38,7 +44,7 @@ checkout
 -> npm run e2e
 ```
 
-The separate `Model Eval` workflow runs `npm run eval` on `main` and by manual dispatch. Its job is bound to the `model-eval` GitHub Environment. Configure that environment to allow only `main`, add approval when appropriate, and store model credentials as environment secrets. Keep model credentials out of repository-level secrets and untrusted pull-request workflows. When a provider is selected, make missing credentials fail clearly.
+The separate `Model Eval` workflow runs `npm run eval` only by manual dispatch in the generic template. Its job is bound to the `model-eval` GitHub Environment. Configure that environment to allow only `main`, add approval when appropriate, and store model credentials as environment secrets. Keep model credentials out of repository-level secrets and untrusted pull-request workflows. When a provider is selected, make missing credentials fail clearly, then decide whether to add protected `main` or release triggers.
 
 Add project-specific implementation behind the stable commands when the stack is chosen:
 

@@ -28,16 +28,18 @@ Before considering work complete, run the narrowest relevant check. For broad ch
 npm run check
 ```
 
-The default quality chain is:
+The deterministic quality chain is:
 
 ```text
-lint -> test -> e2e -> eval
+lint -> test -> e2e
 ```
 
 - `npm run lint`: deterministic static checks, including formatting, ESLint, and TypeScript.
 - `npm run test`: isolated unit tests; do not call real external services or models.
 - `npm run e2e`: integration tests across assembled application boundaries.
 - `npm run eval`: evaluations that call real models with explicit datasets, rubrics, and pass thresholds. Do not replace those model calls with mocks.
+- `npm run check`: the deterministic `lint -> test -> e2e` chain used by bootstrap and pull requests.
+- Run `npm run eval` explicitly or through the protected Model Eval workflow; it is intentionally excluded from `check` because it can consume credentials and incur model cost.
 - Keep these command names stable when adopting framework-specific runners.
 - `npm run build` is a separate packaging/deployment check.
 
