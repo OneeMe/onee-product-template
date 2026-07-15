@@ -45,17 +45,26 @@ lint -> test -> e2e
 - Keep these command names stable when adopting framework-specific runners.
 - `npm run build` is a separate packaging/deployment check.
 
+## Docs
+
+Project documentation lives in `docs/` as a set of focused files. Each file must stay under **1000 lines**; when a document grows past that threshold, split it into a folder with sub-documents.
+
+| File                    | Purpose                                                                             |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `docs/architecture.md`  | Repository layers, module boundaries, and structural decisions                      |
+| `docs/product.md`       | Product positioning, target user, MVP scope, non-goals, and success signals         |
+| `docs/quality-gates.md` | Command contracts, CI gate, Model Eval workflow, and coverage baselines             |
+| `docs/research.md`      | External evidence, comparable products, primary-source findings, and open questions |
+
+Keep evidence and decisions separate: research informs product decisions but is not a commitment until reflected in `docs/product.md`. Agent-facing quality rules live in this file; `docs/quality-gates.md` holds the detailed contracts, CI workflows, and baseline schema.
+
 ## Directory Boundaries
 
 - `apps/android`: Android product slot; keep stack-neutral until the project selects native Android or a cross-platform framework.
 - `apps/ios`: iOS product slot; keep stack-neutral until the project selects native iOS or a cross-platform framework.
 - `apps/web`: user-facing web product.
 - `apps/server`: backend service or API runtime.
-- `packages/domain`: pure business rules.
-- `packages/database`: persistence schema, migrations, models, repositories.
-- `packages/ui`: reusable UI primitives/components.
-- `packages/config`: typed shared configuration.
-- `packages/testing`: test helpers and fixtures.
-- `packages/utils`: small framework-agnostic utilities.
+- `apps/cli`: command-line program.
+- `apps/skill`: agent skill that calls the product's capabilities.
 
 Keep features close to the app that owns them. Extract into `packages/*` only when code is reused or represents a stable boundary.

@@ -39,7 +39,7 @@ npm run eval
 npm run build
 ```
 
-The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. Run each command explicitly; `eval` remains separate because it uses model credentials and may incur cost. See `docs/quality-gates.md` for CI and credential boundaries.
+The four quality contracts are stable: `lint` is static analysis, `test` is unit testing, `e2e` is integration testing, and `eval` runs real-model evaluations. Run each command explicitly; `eval` remains separate because it uses model credentials and may incur cost. See `docs/quality-gates.md` for command contracts, CI, coverage baselines, and credential boundaries.
 
 On the first install in a repository created from this template, `npm install` derives the project name from the clone directory and updates the root package name, workspace package scope, lockfile, README, dependencies, and Git hooks. Later installs are idempotent. To override the derived scope or title, set `ONEE_PROJECT_SCOPE` or `ONEE_PROJECT_TITLE` on the same command.
 
