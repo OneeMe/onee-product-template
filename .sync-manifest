@@ -24,8 +24,8 @@ auto .github/workflows/test.yml
 # Lint & TypeScript config
 auto eslint.config.mjs
 auto tsconfig.base.json
-auto tsconfig.json
-auto tsconfig.quality.json
+review tsconfig.json
+review tsconfig.quality.json
 
 # Test config
 auto vitest.config.ts
