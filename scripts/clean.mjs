@@ -2,7 +2,7 @@ import { readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const roots = ['apps', 'packages'];
-const targets = ['coverage', 'dist'];
+const targets = ['coverage', 'dist', join('.cache', 'test-results')];
 
 for (const root of roots) {
   const entries = await readdir(root, { withFileTypes: true }).catch(() => []);

@@ -29,3 +29,12 @@ jobs:
 
       - name: Run model evaluations
         run: npm run eval
+
+      - name: Upload model-eval evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-eval-evidence
+          path: .cache/test-results/eval/
+          if-no-files-found: ignore
+          retention-days: 7

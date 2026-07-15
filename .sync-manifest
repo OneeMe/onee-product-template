@@ -36,6 +36,7 @@ auto vitest.eval.config.ts
 auto scripts/bootstrap-project.mjs
 auto scripts/clean.mjs
 auto scripts/prepare-project.mjs
+auto scripts/run-app-e2e.mjs
 auto scripts/update-quality-baselines.mjs
 
 # Agent rules — may have project-specific sections (e.g. ## Agent skills)
