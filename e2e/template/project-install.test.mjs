@@ -126,6 +126,7 @@ test('[template.install-initializes-identity] npm install initializes project id
   assert.match(await readFile(join(root, 'README.md'), 'utf8'), /^# Acme Product/m);
   assert.match(await readFile(join(root, 'README.md'), 'utf8'), /acme-product\//);
   assert.match(result.stdout, /Initialized acme-product/);
+  assert.match(result.stdout, /complete Project Context in AGENTS\.md/);
 });
 
 test('[template.install-idempotent] npm install initialization is idempotent', async (t) => {

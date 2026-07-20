@@ -18,8 +18,19 @@
 - From `onee-workspace`, create new products with `make create-product name=<project-name>`.
 - For direct GitHub template usage, clone into the intended lowercase kebab-case directory and run `npm install`.
 - `npm install` derives the project name from the clone directory and initializes package names, workspace scope, lockfile, README, dependencies, and Git hooks.
+- After the first `npm install`, complete every field in **Project Context** before starting implementation. Project setup is incomplete while any field remains `TBD`.
 - Do not manually search and replace `onee-product-template` or `@template/*`; keep identity changes in the install lifecycle scripts.
 - Initialization is idempotent and must not overwrite custom workspace package names.
+
+## Project Context
+
+This is the shared Project/Mission context for every agent working in the repository. Keep it concise and current.
+
+- **Background / Problem:** TBD — explain why the project exists and the problem it addresses.
+- **Goal:** TBD — state the project's long-term goal.
+- **Current Goal:** TBD — state the outcome that matters in the current stage.
+- **Key Results:**
+  - TBD — add observable results that show progress toward the current goal.
 
 ## Quality Gates
 

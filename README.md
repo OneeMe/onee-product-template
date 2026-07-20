@@ -47,6 +47,8 @@ On the first install in a repository created from this template, `npm install` d
 ONEE_PROJECT_SCOPE=acme ONEE_PROJECT_TITLE="Acme Product" npm install
 ```
 
+After the first install, complete the four required Project Context fields in `AGENTS.md`: Background / Problem, Goal, Current Goal, and Key Results. Setup is not complete while any of those fields remains `TBD`.
+
 ## GitHub Template Setup
 
 From `onee-workspace`, create and initialize a public product repository with one command:
@@ -57,4 +59,4 @@ make create-product name=my-product
 
 For a repository created directly through GitHub's template interface, clone it into the intended project directory and run `npm install` before beginning product work.
 
-See `docs/bootstrap.md` for the setup checklist.
+See `AGENTS.md` for the project setup contract.

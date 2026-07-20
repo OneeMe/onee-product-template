@@ -42,6 +42,7 @@ async function main() {
 
   if (changedPaths.length > 0) {
     run('npm', ['install', '--ignore-scripts'], root);
+    console.log('Next required setup step: complete Project Context in AGENTS.md.');
   }
 }
 

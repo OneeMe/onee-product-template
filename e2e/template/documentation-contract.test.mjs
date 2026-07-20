@@ -14,3 +14,14 @@ test('[template.docs-research-boundary] research evidence stays separate from pr
   assert.match(product, /## Positioning/);
   assert.match(product, /## MVP scope/);
 });
+
+test('[template.docs-project-context] setup requires the shared Project Mission context', async () => {
+  const agents = await readFile(resolve('AGENTS.md'), 'utf8');
+
+  assert.match(agents, /## Project Context/);
+  assert.match(agents, /\*\*Background \/ Problem:\*\* TBD/);
+  assert.match(agents, /\*\*Goal:\*\* TBD/);
+  assert.match(agents, /\*\*Current Goal:\*\* TBD/);
+  assert.match(agents, /\*\*Key Results:\*\*/);
+  assert.match(agents, /Project setup is incomplete while any field remains `TBD`/);
+});
