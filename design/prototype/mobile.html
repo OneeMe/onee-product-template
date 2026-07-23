@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="项目移动端入口页原型。" />
+    <title>移动端原型</title>
+    <link rel="stylesheet" href="../tokens.css" />
+    <link rel="stylesheet" href="./prototype.css" />
+  </head>
+  <body>
+    <header class="workbench-header shell">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark" aria-hidden="true">PD</span>
+        <span>Product Design</span>
+      </a>
+      <a class="back-link" href="./index.html">← 返回设计目录</a>
+    </header>
+
+    <main class="page-main shell">
+      <header class="page-heading">
+        <div>
+          <p class="page-kicker">App / Entry prototype</p>
+          <h1>移动端入口页。</h1>
+        </div>
+        <p>默认把“今天要继续什么”放在首屏，减少进入产品后重新寻找上下文的成本。</p>
+      </header>
+
+      <section class="mobile-stage" aria-label="移动端入口页原型与说明">
+        <article class="phone-frame" aria-label="手机界面原型">
+          <div class="phone-screen">
+            <div class="phone-island" aria-hidden="true"></div>
+            <p class="data-label">Tuesday / 21 Jul</p>
+            <h2 class="app-title">今天的焦点</h2>
+            <div class="focus-card">
+              <span class="data-label">Progress</span>
+              <strong class="focus-number">68%</strong>
+              <p>当前目标已推进到可验证阶段。</p>
+            </div>
+            <div class="task-list" aria-label="下一步示例">
+              <div class="task">
+                <span class="task-marker" aria-hidden="true"></span>检查核心流程
+              </div>
+              <div class="task">
+                <span class="task-marker" aria-hidden="true"></span>记录用户反馈
+              </div>
+              <div class="task">
+                <span class="task-marker" aria-hidden="true"></span>确认下一里程碑
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="mobile-notes">
+          <p class="data-label">Screen intent</p>
+          <h2>首页只帮助用户继续。</h2>
+          <p>完整导航和设置不需要抢占首屏。入口页保留当前目标、进展和最接近完成的三个动作。</p>
+          <ul class="note-list">
+            <li><strong>01</strong><span>先恢复上次离开时的上下文。</span></li>
+            <li><strong>02</strong><span>再提供一个最明确的下一步。</span></li>
+            <li><strong>03</strong><span>完成后进入复盘，而不是直接清空。</span></li>
+          </ul>
+          <div class="button-row">
+            <a class="button button-primary" href="./mobile-flow.html">查看完整流程</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="workbench-footer shell">
+      <p>Prototype / Mobile viewport</p>
+      <a href="./mobile-flow.html">继续查看整体流程 →</a>
+    </footer>
+  </body>
+</html>
