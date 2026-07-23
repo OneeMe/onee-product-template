@@ -69,6 +69,13 @@ Project documentation lives in `docs/` as a set of focused files. Each file must
 
 Keep evidence and decisions separate: research informs product decisions but is not a commitment until reflected in `docs/product.md`. Agent-facing quality rules live in this file; `docs/quality-gates.md` holds the detailed contracts, CI workflows, and baseline schema.
 
+## Design Artifacts
+
+- `design/` is an explicit root-level exception for design-system source files and review-only static prototypes.
+- Keep `design/DESIGN.md` as the design-intent contract, `design/tokens.css` as the current exact-value token source, and all prototype HTML/CSS under `design/prototype/`.
+- Design prototypes may be opened locally for review, but they are not deployable product applications; production UI and business behavior remain under `apps/*`.
+- The template may include a clearly labeled generic design scaffold before **Project Context** is complete. After initialization, replace its default product thesis with decisions grounded in `docs/product.md`; research alone does not create a product commitment.
+
 ## Directory Boundaries
 
 - `apps/android`: Android product slot; keep stack-neutral until the project selects native Android or a cross-platform framework.
