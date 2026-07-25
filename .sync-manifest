@@ -39,6 +39,12 @@ auto scripts/prepare-project.mjs
 auto scripts/run-app-e2e.mjs
 auto scripts/update-quality-baselines.mjs
 
+# Review-only prototype runtime — product models and pages stay project-owned
+auto design/prototype/runtime/prototype-runtime.js
+auto design/prototype/runtime/flow-canvas.js
+auto design/prototype/runtime/flow-canvas.css
+auto design/prototype/runtime/README.md
+
 # Agent rules — may have project-specific sections (e.g. ## Agent skills)
 review AGENTS.md
 

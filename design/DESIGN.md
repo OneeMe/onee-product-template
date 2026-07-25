@@ -16,7 +16,8 @@
 2. 本文件定义设计理由、语义角色、交互规则和跨端约束。
 3. `tokens.css` 是当前共享 token **精确值**的唯一真实来源。
 4. `prototype/` 是可运行的设计样例，不是生产组件库，也不自动构成产品需求。
-5. `apps/*` 负责把共享意图适配为各平台的生产实现，并服从目标平台的交互惯例。
+5. `prototype/mobile-screen-model.js` 是移动端单屏原型与整体流程共享屏幕内容和跳转目标的唯一真实来源。
+6. `apps/*` 负责把共享意图适配为各平台的生产实现，并服从目标平台的交互惯例。
 
 本文中的“必须”是不可绕过的基线；“应该”是默认选择，偏离时需要记录理由；“可以”表示允许的局部变体。
 
@@ -80,6 +81,8 @@
 - 共享视觉语义需要映射到原生布局、安全区域、导航与输入方式，不机械复制网页结构。
 - iOS 优先采用平台熟悉的导航、控件反馈、动态字体和手势替代方案。
 - `mobile-flow.html` 是可拖拽、缩放的流程画布；每个节点必须是一张具体屏幕，连线表示真实跳转、条件分支或返回路径。
+- `mobile.html` 与 `mobile-flow.html` 必须通过各自的 Adapter 消费同一个 `mobile-screen-model.js`。Model 共享内容和 action target，HTML/CSS 仍分别负责单屏交互布局与流程审阅布局。
+- `prototype/runtime/` 只维护与产品无关的 Model 绑定和画布操作；业务状态、示例数据、屏幕坐标和品牌样式不得进入 Runtime。
 
 ### 原型舞台
 
@@ -188,7 +191,7 @@ Google Labs 的 `DESIGN.md` 格式仍处于 alpha，并允许在 Markdown 前置
 
 1. **描述原因：** 关联真实用户问题、产品目标或平台约束。
 2. **判断层级：** 修改的是设计命题、语义角色、共享 token、组件规则，还是单页布局。
-3. **更新源头：** 理由与规则写入本文；精确共享值写入 `tokens.css`；页面专用实现留在对应目录。
+3. **更新源头：** 理由与规则写入本文；精确共享值写入 `tokens.css`；两种移动端原型共用的屏幕内容和 action target 写入 `mobile-screen-model.js`；页面专用实现留在对应目录。
 4. **呈现影响：** 更新 `prototype/` 中受影响的 Web、移动端与流程样例。
 5. **验证结果：** 记录检查过的视口、交互方式、无障碍设置和目标平台。
 
@@ -201,8 +204,12 @@ Google Labs 的 `DESIGN.md` 格式仍处于 alpha，并允许在 Markdown 前置
 - `prototype/web.html`：Web 端入口页原型。
 - `prototype/mobile.html`：移动端入口页原型。
 - `prototype/mobile-flow.html`：移动端具体屏幕与跳转流程画布。
+- `prototype/mobile-screen-model.js`：两个移动端入口共享的屏幕内容与 action target。
+- `prototype/mobile.js`：单屏原型 Adapter。
+- `prototype/mobile-flow.js`：流程画布 Adapter。
 - `prototype/prototype.css`：原型共享样式。
-- `prototype/mobile-flow.css`：流程画布与 iOS 屏幕画框专用样式。
+- `prototype/mobile-flow.css`：产品拥有的流程节点坐标与 iOS 屏幕样式。
+- `prototype/runtime/`：模板拥有、可同步的 Model 绑定与画布 Runtime。
 
 可直接打开 `design/prototype/index.html`。如果浏览器限制本地资源，从项目根目录启动静态文件服务：
 
@@ -210,7 +217,7 @@ Google Labs 的 `DESIGN.md` 格式仍处于 alpha，并允许在 Markdown 前置
 python3 -m http.server 4173
 ```
 
-每次设计系统变更至少检查一个桌面宽度、一个移动宽度、键盘操作和减少动态效果。涉及原生 App 时，还必须在目标模拟器或设备上检查动态字体、读屏与真实跳转。
+每次设计系统变更至少运行 `mobile-screen-model.test.ts`，并检查一个桌面宽度、一个移动宽度、键盘操作和减少动态效果。涉及原生 App 时，还必须在目标模拟器或设备上检查动态字体、读屏与真实跳转。
 
 ## 待产品化决策
 

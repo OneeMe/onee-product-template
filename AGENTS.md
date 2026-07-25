@@ -74,6 +74,8 @@ Keep evidence and decisions separate: research informs product decisions but is 
 - `design/` is an explicit root-level exception for design-system source files and review-only static prototypes.
 - Keep `design/DESIGN.md` as the design-intent contract, `design/tokens.css` as the current exact-value token source, and all prototype HTML/CSS under `design/prototype/`.
 - Design prototypes may be opened locally for review, but they are not deployable product applications; production UI and business behavior remain under `apps/*`.
+- Keep `design/prototype/mobile-screen-model.js` as the canonical screen content and action-target source shared by `mobile.html` and `mobile-flow.html`; do not duplicate bound copy in either page or its Adapter.
+- Files under `design/prototype/runtime/` are product-agnostic template infrastructure and may be auto-synced. Product models, state machines, Adapters, screen markup, coordinates, and brand styles stay project-owned.
 - The template may include a clearly labeled generic design scaffold before **Project Context** is complete. After initialization, replace its default product thesis with decisions grounded in `docs/product.md`; research alone does not create a product commitment.
 
 ## Directory Boundaries

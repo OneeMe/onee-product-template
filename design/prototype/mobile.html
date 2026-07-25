@@ -28,24 +28,27 @@
 
       <section class="mobile-stage" aria-label="移动端入口页原型与说明">
         <article class="phone-frame" aria-label="手机界面原型">
-          <div class="phone-screen">
+          <div class="phone-screen" data-model-screen="home">
             <div class="phone-island" aria-hidden="true"></div>
-            <p class="data-label">Tuesday / 21 Jul</p>
-            <h2 class="app-title">今天的焦点</h2>
+            <p class="data-label" data-model-field="dateLabel"></p>
+            <h2 class="app-title" data-model-field="title"></h2>
             <div class="focus-card">
-              <span class="data-label">Progress</span>
-              <strong class="focus-number">68%</strong>
-              <p>当前目标已推进到可验证阶段。</p>
+              <span class="data-label" data-model-field="focusLabel"></span>
+              <strong class="focus-number" data-model-field="progress"></strong>
+              <p data-model-field="progressMessage"></p>
             </div>
             <div class="task-list" aria-label="下一步示例">
               <div class="task">
-                <span class="task-marker" aria-hidden="true"></span>检查核心流程
+                <span class="task-marker" aria-hidden="true"></span
+                ><span data-model-action-label="primary"></span>
               </div>
               <div class="task">
-                <span class="task-marker" aria-hidden="true"></span>记录用户反馈
+                <span class="task-marker" aria-hidden="true"></span
+                ><span data-model-field="secondaryTask"></span>
               </div>
               <div class="task">
-                <span class="task-marker" aria-hidden="true"></span>确认下一里程碑
+                <span class="task-marker" aria-hidden="true"></span
+                ><span data-model-field="tertiaryTask"></span>
               </div>
             </div>
           </div>
@@ -71,5 +74,9 @@
       <p>Prototype / Mobile viewport</p>
       <a href="./mobile-flow.html">继续查看整体流程 →</a>
     </footer>
+
+    <script src="./runtime/prototype-runtime.js"></script>
+    <script src="./mobile-screen-model.js"></script>
+    <script src="./mobile.js"></script>
   </body>
 </html>
