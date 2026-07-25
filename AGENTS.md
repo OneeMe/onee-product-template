@@ -25,6 +25,8 @@
 ## Project Context
 
 This is the shared Project/Mission context for every agent working in the repository. Keep it concise and current.
+It is distinct from the project's domain glossary: resolved, project-specific terminology belongs in
+the root `CONTEXT.md` described under **Domain docs**.
 
 - **Background / Problem:** TBD — explain why the project exists and the problem it addresses.
 - **Goal:** TBD — state the project's long-term goal.
@@ -68,6 +70,14 @@ Project documentation lives in `docs/` as a set of focused files. Each file must
 | `docs/research.md`      | External evidence, comparable products, primary-source findings, and open questions |
 
 Keep evidence and decisions separate: research informs product decisions but is not a commitment until reflected in `docs/product.md`. Agent-facing quality rules live in this file; `docs/quality-gates.md` holds the detailed contracts, CI workflows, and baseline schema.
+
+## Agent skills
+
+### Domain docs
+
+Single-context: project-specific domain language lives in one root `CONTEXT.md`, with `docs/adr/`
+reserved for architectural decisions. Both are created lazily when real terms or decisions are
+resolved. See `docs/agents/domain.md`.
 
 ## Design Artifacts
 

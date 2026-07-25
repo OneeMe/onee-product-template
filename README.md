@@ -23,6 +23,7 @@ onee-product-template/
 ├── e2e/                     # Integration tests across system boundaries
 ├── evals/                   # Evaluations that call real models
 ├── docs/                    # Architecture and quality documentation
+│   └── agents/domain.md     # Agent contract for domain language and ADRs
 ├── scripts/                 # Local automation
 ├── .github/                 # GitHub Actions
 └── .githooks/               # Local git hooks
@@ -48,6 +49,12 @@ ONEE_PROJECT_SCOPE=acme ONEE_PROJECT_TITLE="Acme Product" npm install
 ```
 
 After the first install, complete the four required Project Context fields in `AGENTS.md`: Background / Problem, Goal, Current Goal, and Key Results. Setup is not complete while any of those fields remains `TBD`.
+
+Project Context records the project's mission and current outcomes. Once project-specific domain
+terms are resolved, record their canonical names and avoided synonyms in a root `CONTEXT.md`;
+record hard-to-reverse architectural decisions in `docs/adr/`. These files are created lazily, so
+the template does not seed new products with fake or template-owned domain language. See
+`docs/agents/domain.md`.
 
 ## GitHub Template Setup
 

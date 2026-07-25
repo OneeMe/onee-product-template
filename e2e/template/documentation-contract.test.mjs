@@ -47,3 +47,17 @@ test('[template.docs-project-context] setup requires the shared Project Mission 
   }
   assert.match(agents, /Project setup is incomplete while any field remains `TBD`/);
 });
+
+test('[template.docs-domain-context] projects inherit the single-context domain-doc contract', async () => {
+  const [agents, domain] = await Promise.all([
+    readFile(resolve('AGENTS.md'), 'utf8'),
+    readFile(resolve('docs/agents/domain.md'), 'utf8'),
+  ]);
+
+  assert.match(agents, /project-specific domain language lives in one root `CONTEXT\.md`/);
+  assert.match(agents, /See `docs\/agents\/domain\.md`/);
+  assert.match(domain, /\*\*`CONTEXT\.md`\*\* at the repo root/);
+  assert.match(domain, /\*\*proceed silently\*\*/);
+  assert.match(domain, /creates them lazily when terms or decisions actually get resolved/);
+  assert.match(domain, /Use the glossary's vocabulary/);
+});
