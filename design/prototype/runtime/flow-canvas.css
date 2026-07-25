@@ -41,9 +41,9 @@
   z-index: 12;
   width: min(25rem, calc(100% - (2 * var(--layout-gutter))));
   padding: var(--space-4) var(--space-5);
-  border: var(--border-thin) solid rgb(23 49 59 / 10%);
+  border: var(--border-thin) solid color-mix(in srgb, var(--color-border-strong) 20%, transparent);
   border-radius: var(--radius-medium);
-  background: rgb(255 255 255 / 88%);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
   box-shadow: var(--shadow-small);
   pointer-events: none;
   backdrop-filter: blur(14px);
@@ -77,7 +77,7 @@
   overflow: hidden;
   border: var(--border-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background: rgb(255 255 255 / 92%);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
   box-shadow: var(--shadow-small);
   backdrop-filter: blur(14px);
 }
@@ -126,7 +126,7 @@
   padding: var(--space-2) var(--space-4);
   border: var(--border-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background: rgb(255 255 255 / 88%);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
   color: var(--color-text-muted);
   font-family: var(--font-data);
   font-size: var(--font-size-0);

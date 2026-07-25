@@ -1,7 +1,34 @@
 (function attachPrototypeRuntime(globalScope) {
+  function normalizeScreen(screen) {
+    const fields = Object.freeze({ ...screen.fields });
+    const actions = Object.freeze(
+      Object.fromEntries(
+        Object.entries(screen.actions).map(([actionName, action]) => [
+          actionName,
+          Object.freeze(
+            action.target
+              ? { label: action.label, target: action.target }
+              : {
+                  label: action.label,
+                },
+          ),
+        ]),
+      ),
+    );
+
+    return Object.freeze({ fields, actions });
+  }
+
   function defineScreenModel(definition) {
     const screenIds = Object.freeze(Object.keys(definition.screens));
-    const screens = Object.freeze({ ...definition.screens });
+    const screens = Object.freeze(
+      Object.fromEntries(
+        Object.entries(definition.screens).map(([screenId, screen]) => [
+          screenId,
+          normalizeScreen(screen),
+        ]),
+      ),
+    );
 
     if (!screenIds.includes(definition.entryScreenId)) {
       throw new Error(`Unknown prototype entry screen: ${definition.entryScreenId}`);

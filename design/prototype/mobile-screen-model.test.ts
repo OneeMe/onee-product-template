@@ -113,6 +113,40 @@ describe('mobile prototype screen-model seam', () => {
     ).toThrow('Unknown prototype entry screen: missing');
   });
 
+  it('copies and deeply freezes normalized screen content', () => {
+    const fields = { title: '原始标题' };
+    const primaryAction = { label: '继续', target: 'detail' };
+    const screens = {
+      home: {
+        fields,
+        actions: { primary: primaryAction },
+      },
+      detail: {
+        fields: { title: '详情' },
+        actions: {},
+      },
+    };
+    const model = prototypeRuntime.defineScreenModel({
+      entryScreenId: 'home',
+      screens,
+    });
+
+    fields.title = '外部修改';
+    primaryAction.label = '外部修改';
+
+    const home = model.getScreen('home');
+    const primary = home.actions.primary;
+    expect(primary).toBeDefined();
+    if (!primary) throw new Error('Expected home.actions.primary');
+
+    expect(home.fields.title).toBe('原始标题');
+    expect(primary.label).toBe('继续');
+    expect(Object.isFrozen(home)).toBe(true);
+    expect(Object.isFrozen(home.fields)).toBe(true);
+    expect(Object.isFrozen(home.actions)).toBe(true);
+    expect(Object.isFrozen(primary)).toBe(true);
+  });
+
   it('keeps both pages wired to the model instead of duplicating canonical copy', () => {
     const mobilePage = readPrototypeFile('mobile.html');
     const flowPage = readPrototypeFile('mobile-flow.html');
@@ -159,7 +193,8 @@ describe('mobile prototype screen-model seam', () => {
     expect(flowAdapter).toContain('OneeFlowCanvas.mount');
   });
 
-  it('uses only fields and actions defined by each flow screen', () => {
+  it('uses only fields and actions defined by each bound screen in both pages', () => {
+    const mobilePage = readPrototypeFile('mobile.html');
     const flowPage = readPrototypeFile('mobile-flow.html');
     const screenBlocks = [
       ...flowPage.matchAll(
@@ -168,14 +203,26 @@ describe('mobile prototype screen-model seam', () => {
     ];
     const missingBindings: string[] = [];
 
-    for (const [, screenId, body] of screenBlocks) {
+    checkBindings('home', mobilePage);
+    for (const match of screenBlocks) {
+      const screenId = match[1];
+      const body = match[2];
+      if (!screenId || !body) throw new Error('Expected a complete model-bound screen block');
+      checkBindings(screenId, body);
+    }
+
+    function checkBindings(screenId: string, source: string) {
       const screen = screenModel.getScreen(screenId);
-      for (const [, fieldName] of body.matchAll(/data-model-field="([^"]+)"/g)) {
+      for (const match of source.matchAll(/data-model-field="([^"]+)"/g)) {
+        const fieldName = match[1];
+        if (!fieldName) throw new Error('Expected a model field name');
         if (!Object.hasOwn(screen.fields, fieldName)) {
           missingBindings.push(`${screenId}.field.${fieldName}`);
         }
       }
-      for (const [, actionName] of body.matchAll(/data-model-action(?:-label)?="([^"]+)"/g)) {
+      for (const match of source.matchAll(/data-model-action(?:-label)?="([^"]+)"/g)) {
+        const actionName = match[1];
+        if (!actionName) throw new Error('Expected a model action name');
         if (!Object.hasOwn(screen.actions, actionName)) {
           missingBindings.push(`${screenId}.action.${actionName}`);
         }
@@ -184,6 +231,13 @@ describe('mobile prototype screen-model seam', () => {
 
     expect(screenBlocks.map(([, screenId]) => screenId)).toEqual(screenModel.screenIds);
     expect(missingBindings).toEqual([]);
+  });
+
+  it('keeps the auto-synced canvas shell free of product color literals', () => {
+    const runtimeCss = readPrototypeFile('runtime/flow-canvas.css');
+
+    expect(runtimeCss).not.toMatch(/#[\da-f]{3,8}\b/i);
+    expect(runtimeCss).not.toContain('rgb(');
   });
 
   it('marks only template-owned runtime files for automatic downstream sync', () => {
