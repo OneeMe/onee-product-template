@@ -1,10 +1,19 @@
 name: Quality
 
+# This template ships the quality gate disabled by default so that exploratory
+# or short-lived projects created from it do not consume Actions minutes on
+# every push or pull request. The job below is fully retained.
+#
+# For a production project, enable the automated gate by restoring these
+# triggers (and removing the manual dispatch):
+#
+#   on:
+#     pull_request:
+#     push:
+#       branches:
+#         - main
 on:
-  pull_request:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read

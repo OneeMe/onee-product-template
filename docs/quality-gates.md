@@ -35,7 +35,7 @@ The template includes an integration test for its `npm install` initialization l
 
 ## CI Gate
 
-The `Quality` workflow runs deterministic gates on push and pull request:
+The `Quality` workflow runs deterministic gates:
 
 ```text
 checkout
@@ -45,6 +45,8 @@ checkout
 -> npm run test
 -> npm run e2e
 ```
+
+The template ships the `Quality` workflow disabled by default: it triggers only on `workflow_dispatch`, so repositories created from the template do not consume Actions minutes until they are ready for a standing CI gate. To enable the automated gate for a production project, restore the `pull_request` and `push` (main) triggers in `.github/workflows/test.yml`.
 
 The separate `Model Eval` workflow runs `npm run eval` only by manual dispatch in the generic template. Its job is bound to the `model-eval` GitHub Environment. Configure that environment to allow only `main`, add approval when appropriate, and store model credentials as environment secrets. Keep model credentials out of repository-level secrets and untrusted pull-request workflows. When a provider is selected, make missing credentials fail clearly, then decide whether to add protected `main` or release triggers.
 
