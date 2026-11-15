@@ -52,6 +52,8 @@ lint -> test -> e2e
 
 - `npm run lint`: deterministic static checks, including formatting, ESLint, and TypeScript.
 - `npm run test`: isolated unit tests; do not call real external services or models.
+- Coverage is available but disabled by default. Only the project maintainer decides when the project has entered serious iteration and enables it by setting `scripts.test` to `npm run test:coverage` in `package.json`. Do not enable it automatically based on project age or size.
+- Before coverage is enabled, report test results and state that coverage was not measured. After it is enabled, commit generated coverage baselines and report overall and affected-module statements, branches, functions, lines, and line-coverage deltas. See `docs/quality-gates.md` for activation and CI behavior.
 - `npm run e2e`: integration tests across assembled application boundaries.
 - `npm run eval`: evaluations that call real models with explicit datasets, rubrics, and pass thresholds. Do not replace those model calls with mocks.
 - Run `npm run eval` explicitly or through the protected Model Eval workflow because it can consume credentials and incur model cost.
